@@ -182,26 +182,45 @@
       };
 
       btnNo.onclick = () => {
-        if (sudahDiklik) return;
-        sudahDiklik = true;
         btnNo.classList.add("nakal");
-        pindah();
-      };
-
-      btnNo.onmouseenter = () => {
-        if (!sudahDiklik) return;
         pindah();
       };
 
       function pindah() {
         const boxRect = box.getBoundingClientRect();
-        const btnRect = btnNo.getBoundingClientRect();
+        const noRect = btnNo.getBoundingClientRect();
+        const yesRect = btnYes.getBoundingClientRect();
+
         const padding = 20;
 
-        const x =
-          Math.random() * (boxRect.width - btnRect.width - padding * 2) +
-          padding;
-        const y = Math.random() * (boxRect.height - btnRect.height - 160) + 130;
+        let x, y;
+        let aman = false;
+
+        while (!aman) {
+          x =
+            Math.random() * (boxRect.width - noRect.width - padding * 2) +
+            padding;
+
+          y = Math.random() * (boxRect.height - noRect.height - 160) + 120;
+
+          // cek tabrakan dengan tombol YES
+          const noArea = {
+            left: boxRect.left + x,
+            right: boxRect.left + x + noRect.width,
+            top: boxRect.top + y,
+            bottom: boxRect.top + y + noRect.height,
+          };
+
+          const yesArea = yesRect;
+
+          const tabrakan =
+            noArea.right > yesArea.left &&
+            noArea.left < yesArea.right &&
+            noArea.bottom > yesArea.top &&
+            noArea.top < yesArea.bottom;
+
+          if (!tabrakan) aman = true;
+        }
 
         btnNo.style.left = x + "px";
         btnNo.style.top = y + "px";
