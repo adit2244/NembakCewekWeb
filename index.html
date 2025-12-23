@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Untuk Ririn 🤍</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Comic Sans MS", cursive;
+      }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        background: radial-gradient(circle at top, #3a0f18, #140507);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .heart {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.18);
+        font-size: 18px;
+        animation: float 8s infinite ease-in-out;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+          opacity: 0.5;
+        }
+        50% {
+          transform: translateY(-30px);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 0.5;
+        }
+      }
+
+      #box {
+        background: #fff;
+        width: 420px;
+        padding: 32px;
+        border-radius: 22px;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+        overflow: hidden;
+      }
+
+      h1 {
+        color: #4a1420;
+      }
+
+      p {
+        color: #444;
+        line-height: 1.7;
+        font-size: 15.5px;
+      }
+
+      button {
+        border: none;
+        padding: 13px 26px;
+        border-radius: 999px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.35s ease;
+      }
+
+      #btnStart,
+      #btnYes {
+        background: #4a1420;
+        color: #fff;
+      }
+
+      #btnYes:hover {
+        transform: scale(1.08);
+        box-shadow: 0 12px 28px rgba(74, 20, 32, 0.45);
+      }
+
+      #btnNo {
+        background: #e0e0e0;
+        color: #555;
+      }
+
+      #btnNo.nakal {
+        position: absolute;
+        transition: left 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+          top 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      }
+
+      #question,
+      #result {
+        display: none;
+        min-height: 180px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ❤️ love floating -->
+    <div class="heart" style="top: 10%; left: 12%">❤️</div>
+    <div class="heart" style="top: 80%; left: 80%">❤️</div>
+    <div class="heart" style="top: 50%; left: 92%">❤️</div>
+    <div class="heart" style="top: 85%; left: 6%">❤️</div>
+
+    <div id="box">
+      <!-- OPENING -->
+      <div id="opening">
+        <h1>Hayy Ririn Amliyanti 🤍</h1>
+        <p>
+          Ada perasaan yang tumbuh pelan-pelan,<br />
+          tenang, tapi nyata.
+        </p>
+        <button id="btnStart">Klik untuk lihat</button>
+      </div>
+
+      <!-- QUESTION -->
+      <div id="question">
+        <p>
+          Aku tau selama ini aku selalu tarik ulur, tapi dengan penuh keyakinan,
+          aku mau bilang,
+        </p>
+        <h1>aku menyukaimu, RIRIN AMLIYANTI</h1>
+        <h1>Maukah kamu jadi pacarku? 🤍</h1>
+        <br />
+        <button id="btnYes">Iyaa Mauu</button>
+        <button id="btnNo">Gak Dulu..!</button>
+      </div>
+
+      <!-- RESULT -->
+      <div id="result">
+        <h1>Terima kasih 🤍</h1>
+        <p>Aku ingin jadi tempat pulang,<br />bukan sekadar singgah.</p>
+        <p>Aku nggak janji sempurna,<br />tapi aku janji serius.</p>
+        <p>
+          Semoga kita bisa tumbuh bareng ✨ <br />
+          Semoga kita bisa belajar untuk tumbuh lebih baik, menuju dewasa yang
+          punya bumbu-bumbu romansanya ✨
+        </p>
+        <h1>23 Desmber 2025</h1>
+        <p>desember Ber nya apa?</p>
+        <p>karena BERsamamu semua terasa indah...</p>
+      </div>
+    </div>
+
+    <script>
+      /* ================= AUDIO MP3 ================= */
+      const music = new Audio("penjaga hati.mp3");
+      music.loop = true;
+      music.volume = 0.4;
+
+      function playCalmPiano() {
+        music.volume = 0.35;
+        music.play().catch(() => {});
+      }
+
+      function playRomanticPiano() {
+        music.volume = 0.7;
+      }
+
+      /* ================= UI LOGIC ================= */
+      const btnStart = document.getElementById("btnStart");
+      const btnYes = document.getElementById("btnYes");
+      const btnNo = document.getElementById("btnNo");
+      const opening = document.getElementById("opening");
+      const question = document.getElementById("question");
+      const result = document.getElementById("result");
+      const box = document.getElementById("box");
+
+      let sudahDiklik = false;
+
+      btnStart.onclick = () => {
+        playCalmPiano();
+        opening.style.display = "none";
+        question.style.display = "block";
+      };
+
+      btnNo.onclick = () => {
+        if (sudahDiklik) return;
+        sudahDiklik = true;
+        btnNo.classList.add("nakal");
+        pindah();
+      };
+
+      btnNo.onmouseenter = () => {
+        if (!sudahDiklik) return;
+        pindah();
+      };
+
+      function pindah() {
+        const boxRect = box.getBoundingClientRect();
+        const btnRect = btnNo.getBoundingClientRect();
+        const padding = 20;
+
+        const x =
+          Math.random() * (boxRect.width - btnRect.width - padding * 2) +
+          padding;
+        const y = Math.random() * (boxRect.height - btnRect.height - 160) + 130;
+
+        btnNo.style.left = x + "px";
+        btnNo.style.top = y + "px";
+      }
+
+      btnYes.onclick = () => {
+        playRomanticPiano();
+        question.style.display = "none";
+        result.style.display = "block";
+      };
+    </script>
+  </body>
+</html>
